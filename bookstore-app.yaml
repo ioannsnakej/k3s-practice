@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bookstore-app-pod
+  labels:
+    prj: bookstore-app
+spec:
+  containers:
+    - name: bookstore-app-01
+      image: ivankhodyrev/bookstore-app:2352035742
+      ports:
+        - containerPort: 5000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bookstore-app-svc
+  labels:
+    prj: bookstore-app
+    part: service
+spec:
+  selector:
+    prj: bookstore-app
+  ports:
+    - port: 5000
+      targetPort: 5000
+  type: ClusterIP
