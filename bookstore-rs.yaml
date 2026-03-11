@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: bookstore-rs
+  labels:
+    prj: bookstoreapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      prj: bookstoreapp
+      part: back
+  template:
+    metadata:
+      labels:
+        prj: bookstoreapp
+        part: back
+    spec:
+      containers:
+      - name: bookstore-app-01
+        image: ivankhodyrev/bookstore-app:2352035742
+        ports:
+          - containerPort: 5000
