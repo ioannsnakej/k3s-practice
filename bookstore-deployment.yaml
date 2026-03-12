@@ -6,6 +6,11 @@ metadata:
     prj: bookstoreapp
 spec:
   replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 2
   selector:
     matchLabels:
       prj: bookstoreapp
@@ -15,6 +20,8 @@ spec:
       labels:
         prj: bookstoreapp
         part: back
+      annotations: 
+        kubernetes.io/change-cause: "Set th`d version"
     spec:
       containers:
       - name: bookstore-app-01
