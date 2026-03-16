@@ -7,6 +7,10 @@ data:
     server {
       listen 80;
       server_name _;
+      
+      resolver kube-dns.kube-system.svc.cluster.local valid=10s;
+      
+      set $backend "http://app-svc:5000";
 
       location /static/ {
         alias /static/;
@@ -15,22 +19,22 @@ data:
       }
 
       location / {
-        proxy_pass http://app-svc:5000;
+        proxy_pass $backend;
       }
 
       location /books {
-        proxy_pass http://app-svc:5000/books;
+        proxy_pass $backend/books;
       }
 
       location /create {
-        proxy_pass http://app-svc:5000/create;
+        proxy_pass $backend/create;
       }
 
       location /edit {
-        proxy_pass http://app-svc:5000/edit;
+        proxy_pass $backend/edit;
       }
 
       location /delete {
-        proxy_pass http://app-svc:5000/delete;
+        proxy_pass $backend/delete;
       }
     }
