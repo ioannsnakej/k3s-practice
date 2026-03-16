@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ws-configmap
+data:
+  nginx.conf: |
+    server {
+      listen 80;
+      server_name _;
+
+      location /static/ {
+        alias /static/;
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+      }
+
+      location / {
+        proxy_pass http://app-svc:5000;
+      }
+
+      location /books {
+        proxy_pass http://app-svc:5000/books;
+      }
+
+      location /create {
+        proxy_pass http://app-svc:5000/create;
+      }
+
+      location /edit {
+        proxy_pass http://app-svc:5000/edit;
+      }
+
+      location /delete {
+        proxy_pass http://app-svc:5000/delete;
+      }
+    }
